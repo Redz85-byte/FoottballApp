@@ -26,11 +26,11 @@ public class WebSecurityConfig {
         .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(antMatcher("/css/**")).permitAll()
             .requestMatchers("/pelaajalista", "/ottelut1", "/ottelut2").permitAll()
-            .requestMatchers("/delete-pelaaja/**", "/muokkaapelaaja/**","/muokkaaottelu/**").hasRole("ADMIN") 
-            .requestMatchers("/h2-console/**").hasRole("ADMIN")
+            .requestMatchers("/delete-pelaaja/**", "/muokkaapelaaja/**","/muokkaaottelu/**").hasRole("ADMIN")
             .anyRequest().authenticated() 
         )
         .formLogin(formlogin -> formlogin
+            .loginPage("/login")
             .defaultSuccessUrl("/pelaajalista", true)
             .permitAll()
         )
