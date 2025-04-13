@@ -27,6 +27,7 @@ public class WebSecurityConfig {
             .requestMatchers(antMatcher("/css/**")).permitAll()
             .requestMatchers("/pelaajalista", "/ottelut1", "/ottelut2").permitAll()
             .requestMatchers("/delete-pelaaja/**", "/muokkaapelaaja/**","/muokkaaottelu/**").hasRole("ADMIN") 
+            .requestMatchers("/h2-console/**").hasRole("ADMIN")
             .anyRequest().authenticated() 
         )
         .formLogin(formlogin -> formlogin
