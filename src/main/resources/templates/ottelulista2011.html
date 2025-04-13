@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ottelulista</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/tyyli.css}">
+</head>
+<body>
+
+<div class="container mt-4">
+    <h2 class="text-center">PPJ 2011 Sininen - Ottelut</h2>
+
+    <div class="text-center mt-3 mb-4">
+        <a class="btn btn-primary" href="/pelaajalista">Takaisin pelaajiin</a>
+        <a class="btn btn-primary" href="/ottelut2">Siirry PPJ Laru 2015 Sinisten otteluihin</a>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th sec:authorize="hasRole('ADMIN')">OtteluId</th> 
+                <th>Ottelutyyppi</th>
+                <th>Päivämäärä</th>
+                <th>Vastustaja</th>
+                <th>PPJ maalit</th>
+                <th>Vastustajan maalit</th>
+                <th>Tulos</th>
+                <th sec:authorize="hasRole('ADMIN')">Toiminnot</th> 
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="ottelu : ${ottelut2011}">
+                <td sec:authorize="hasRole('ADMIN')" th:text="${ottelu.otteluId}"></td> 
+                <td th:text="${ottelu.ottelutyyppi}"></td>
+                <td th:text="${ottelu.pvm}"></td>
+                <td th:text="${ottelu.vastustaja}"></td>
+                <td th:text="${ottelu.ppjmaalit}"></td>
+                <td th:text="${ottelu.vastustajanmaalit}"></td>
+                <td th:text="${ottelu.ppjmaalit > ottelu.vastustajanmaalit ? 'Voitto'  
+                                : (ottelu.ppjmaalit < ottelu.vastustajanmaalit ? 'Häviö' : 'Tasapeli')}"></td>
+                <td sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{'/muokkaaottelu/' + ${ottelu.otteluId}}" class="btn btn-warning btn-sm">Muokkaa</a>
+                    <form th:action="@{'/poistaottelu/' + ${ottelu.otteluId}}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Poista</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div sec:authorize="hasRole('ADMIN')">
+    <a href="/lisaaottelu" class="btn btn-success btn-lg floating-button">Lisää ottelu</a>
+</div>
+
+</body>
+</html>

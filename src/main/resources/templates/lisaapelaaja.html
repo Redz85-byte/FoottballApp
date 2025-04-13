@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lisää uusia pelaajia</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h2>Lisää uusi pelaaja</h2>
+        <form th:action="@{/lisaapelaaja}" th:object="${pelaaja}" method="post">
+            
+            <div class="form-group mb-2">
+                <label for="nimi">Nimi</label>
+                <input type="text" id="nimi" th:field="*{nimi}" class="form-control" required>
+                <div class="text-danger" th:if="${#fields.hasErrors('nimi')}" th:errors="*{nimi}"></div>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="pituus">Pituus</label>
+                <input type="number" step="0.01" id="pituus" th:field="*{pituus}" class="form-control" required>
+                <div class="text-danger" th:if="${#fields.hasErrors('pituus')}" th:errors="*{pituus}"></div>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="pelipaikka">Pelipaikka</label>
+                <select id="pelipaikka" th:field="*{pelipaikka}" class="form-control" required>
+                    <option value="" disabled selected>Valitse pelipaikka</option>
+                    <option value="Hyökkääjä">Hyökkääjä</option>
+                    <option value="Keskikenttä">Keskikenttä</option>
+                    <option value="Puolustaja">Puolustaja</option>
+                    <option value="Laituri">Laituri</option>
+                    <option value="Maalivahti">Laitapuolustaja</option>
+                    <option value="Maalivahti">Laitahyökkääjä</option>
+                    <option value="Maalivahti">Maalivahti</option>
+                </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('pelipaikka')}" th:errors="*{pelipaikka}"></div>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="pelinumero">Pelinumero</label>
+                <input type="number" id="pelinumero" th:field="*{pelinumero}" class="form-control" required>
+                <div class="text-danger" th:if="${#fields.hasErrors('pelinumero')}" th:errors="*{pelinumero}"></div>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="joukkue">Joukkue</label>
+                <select id="joukkue" th:field="*{joukkue.id}" class="form-control" required>
+                    <option value="" disabled selected>Valitse joukkue</option>
+                    <option th:each="joukkue : ${joukkueet}" th:value="${joukkue.id}" th:text="${joukkue.nimi}">
+                    </option>
+                </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('joukkue')}" th:errors="*{joukkue}"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Lisää pelaaja</button>
+        </form>
+    </div>
+</body>
+
+</html>
